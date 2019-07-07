@@ -1,0 +1,159 @@
+@font-face{
+    font-family: sy-bold;
+    src:url("./font/NotoSansHans-Bold.otf");
+}
+@font-face{
+    font-family: medium;
+    src:url("./font/NotoSansHbarsans-Medium.otf");
+}
+@font-face{
+    font-family: din ;
+    src:url("./font/dinpro/DINPro-Bold.otf");
+}
+@font-face{
+    font-family: sy-regular;
+    src:url("./font/NotoSansHans-Regular.otf");
+}
+@font-face{
+    font-family: sy-demiLight;
+    src:url("./font/NotoSansHans-DemiLight.otf");
+}
+body{
+    color: #333333;
+    margin: 0px;
+    background-color: #eeeeee;
+    overflow: hidden;
+    position: absolute;
+    width: 1920px;
+    height: 1080px;
+    font-family: din,sy-regular;
+}
+#yearDiv{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1920px;
+    height: 100px;
+
+}
+.yearMarker{
+    font-size: 100px;
+    fill: #888888;
+    text-anchor: middle;
+    alignment-baseline: central;
+    font-family: din,sy-bold;
+}
+#bars rect{
+    border-radius: 10px;
+}
+#bubbleDiv{
+    position: absolute;
+    top: 0px;
+    left: 0;
+    width: 1270px;
+    height: 1080px;
+}
+#bubbleDiv .nodes text{
+    stroke: #6F257F;
+    stroke-opacity: 0.0;
+    fill: #D4D8DA;
+}
+#bubbleDiv .nodes #value{
+    stroke: #6F257F;
+    stroke-opacity: 0.0;
+    fill: #D4D8DA;
+}
+#hbarDiv{
+    position: absolute;
+    top: 480px;
+    left: 1270px;
+    width: 650px;
+    height: 600px;
+}
+#imgDiv{
+    position: absolute;
+    top: 80px;
+    left: 1270px;
+    width: 650px;
+    height: 400px;
+}
+#numLabels text{
+    font-size: 24px;
+    alignment-baseline: central;
+    font-family: sy-regular;
+    fill: #333333;
+}
+
+#labels text{
+    font-size: 24px;
+    alignment-baseline: central;
+    fill: #333333;
+}
+.bar {
+    fill: #6F257F;
+}
+
+.circle #name{
+    /*fill-opacity: 0!important;*/
+
+}
+.circle #value{
+    stroke: #D4D8DA!important;
+    stroke-opacity: 1!important;
+    stroke-width: 0.1px!important;
+
+}
+#bubbleDiv text {
+    text-anchor: middle;
+    pointer-events: none;
+}
+#bubbleDiv circle {
+    stroke: #D4D8DA;
+}
+#imgDiv figure{
+    border: thin #c0c0c0 solid;
+    display: flex;
+    flex-flow: column;
+    margin: 0;
+    padding: 5px;
+    width: 19em;
+}
+#imgDiv img {
+    width: 100%;
+}
+#imgDiv figcaption {
+    background-color: #222;
+    color: #fff;
+    padding: 3px;
+    text-align: center;
+}
+.axis text{
+    fill: #333333;
+    font-size: 24px;
+    font-family: din, sy-bold;
+}
+.axis path,
+.axis line {
+    fill: #cacaca;
+    stroke: #cacaca;
+    stroke-width: 2px;
+    shape-rendering: crispEdges;
+}
+.x path {
+    display: none;
+}
+#year{
+    fill: #000000;
+    font-size: 30px;
+    opacity: 0.8;
+}
+.toolTip {
+    position: absolute;
+    display: none;
+    min-width: 80px;
+    height: auto;
+    background: none repeat scroll 0 0 #ffffff;
+    border: 1px solid #6F257F;
+    padding: 14px;
+    text-align: center;
+}

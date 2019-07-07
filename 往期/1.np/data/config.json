@@ -1,0 +1,14 @@
+{
+  "colors":null,
+  "barLabel":"指数/万",
+  "barDer":10000,
+  "bubbleLabel":"",
+  "bubbleDer":1,
+  "decimals":0,
+  "duration":2000,
+  "barNum":10,
+  "ease":"easeLinear",
+  "maxRadius":200,
+  "descTitle":"微博指数第一：",
+  "ifShowBubbleName":false
+}

@@ -1,0 +1,15 @@
+{
+  "colors":null,
+  "barLabel":"播放量/万",
+  "barDer":1,
+  "bubbleLabel":"万",
+  "bubbleDer":1,
+  "decimals":0,
+  "duration":1500,
+  "barNum":10,
+  "ease":"easeLinear",
+  "maxRadius":140,
+  "descTitle":"播放量第一：",
+  "ifShowImg":false,
+  "ifShowName":true
+}
