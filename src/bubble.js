@@ -102,8 +102,8 @@ d3.bubble = function () {
     function update() {
         // console.log(properties.step);
         packData(properties.step,properties.data);
-        realUpdateForces();
-        realUpdateDisplay();
+        updateForces();
+        updateDisplay();
     }
 
 
@@ -290,11 +290,11 @@ d3.bubble = function () {
             .force("forceX", d3.forceX())
             .force("forceY", d3.forceY());
         // apply properties to each of the forces
-        updateForces();
+        initForces();
     }
 
     // apply new force properties
-    function updateForces() {
+    function initForces() {
         forceProperties.charge.strength=-10;
         simulation
             .force("cluster", forceCluster);
@@ -322,7 +322,7 @@ d3.bubble = function () {
         // restarts the simulation (important if simulation has already slowed down)
         simulation.alpha(0.6).restart();
     }
-    function realUpdateForces(){
+    function updateForces(){
         simulation
             .force("cluster", realForceCluster);
         // get each force by name and update the properties
@@ -392,11 +392,11 @@ d3.bubble = function () {
                 .on("end", dragended)
             );
         // visualize the graph
-        updateDisplay();
+        initDisplay();
     }
 
     // update the display based on the forces (but not positions)
-    function updateDisplay() {
+    function initDisplay() {
         let t = d3.transition()
             .ease(d3.easeLinear)
             .duration(properties.config.duration);
@@ -492,7 +492,7 @@ d3.bubble = function () {
 
     }
     //update
-    function realUpdateDisplay() {
+    function updateDisplay() {
         // transition
         let t = d3.transition()
             .ease(d3.easeLinear)

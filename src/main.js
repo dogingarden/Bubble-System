@@ -1,6 +1,6 @@
 //加载数据
 d3.queue(2)
-    .defer(d3.json,"./data/data.json")
+    .defer(d3.json,"./data/data.csv")
     .defer(d3.json,"./data/config.json")
     .await(makeMyChart);
 
@@ -17,16 +17,17 @@ let config;
 function makeMyChart(error, data, cfg) {
 
     if (error) throw error;
-
+    data=packData(data);
     config=cfg;
-    d3.select("#yearDiv").append("svg")
+    d3.select("#yearDiv")
+        .append("svg")
         .attr("height",100)
         .attr("width",width)
         .append("g")
         .attr("id","year")
         .append("text")
         .attr("class","yearMarker")
-        .attr("transform","translate("+width/2+","+100/2+")");
+        .attr("transform","translate("+width/2+",50)");
 
     maxValue=d3.max(data,function (d) {
         return d3.max(d.data,function (e) {
@@ -172,3 +173,23 @@ let updateChart=function(nowData,preData) {
         })())
         .update();
 };
+function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+}
+function packData(data){
+    let showData=[];
+    let years=data.map(d=>d.date).filter(onlyUnique);
+    console.log(years);
+    years.forEach(y=>{
+  
+      let temp_arr={year:y,data:[]};
+      let temp_data=data.filter(d=>d.date==y);
+      temp_data.forEach(d=>{
+        temp_arr.data.push({name:d.name,value:d.value,group:"jj"});
+  
+      })
+      showData.push(temp_arr);
+  
+    });
+    return showData;
+}
