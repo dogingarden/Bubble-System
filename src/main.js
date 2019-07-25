@@ -1,6 +1,6 @@
 //加载数据
 d3.queue(2)
-    .defer(d3.json,"./data/data.csv")
+    .defer(d3.csv,"./data/data.csv")
     .defer(d3.json,"./data/config.json")
     .await(makeMyChart);
 
