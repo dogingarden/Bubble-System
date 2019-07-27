@@ -64,6 +64,8 @@ Python 3:``` python -m http.server 9093```
 
 email：274219962#qq.com
 
+qq群：彩色说粉丝交流群    群号：857560096
+
 官方网站：[彩色说](vis27.com)
 
 微博：[孔令远](https://weibo.com/u/5019153940)
