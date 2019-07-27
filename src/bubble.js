@@ -8,17 +8,13 @@ d3.bubble = function () {
     let sizeDivisor = 100, nodePadding = 2.5;
     let color;
 
-
     // The largest node for each cluster.
     let clusters = new Array(5);
     let type;
-
     //nodes 为数据
     //node 为节点，容器
     let nodes,node;
     let sPosition=[];
-
-    //load data
     /*
     maxR 最大半径
     unit 显示单位
@@ -237,7 +233,7 @@ d3.bubble = function () {
     function onlyUnique(value, index, self) {
         return self.indexOf(value) === index;
     }
-    //////////// FORCE SIMULATION ////////////
+    //力模拟
     let forceProperties = {
         center: {
             x: 0,
@@ -371,7 +367,7 @@ d3.bubble = function () {
             node.vy -= (node.y - cluster.y) * k;
         }
     }
-    //////////// DISPLAY ////////////
+    //展示模块
 
     // generate the svg objects and force simulation
     function initializeDisplay() {
@@ -735,7 +731,7 @@ d3.bubble = function () {
         }
     }
 
-    //////////// UI EVENTS ////////////
+    //监听事件//
 
     function dragstarted(d) {
         if (!d3.event.active) simulation.alphaTarget(0.3).restart();
