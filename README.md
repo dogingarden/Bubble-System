@@ -17,6 +17,7 @@ Python 3:``` python -m http.server 9093```
 1. `data.csv`
 
    格式如下：
+   
    | date | name | value | group |
    | ------ | ------ | ------ | ------ |
    | 1992 | 中国 | 123 | 亚洲 |
