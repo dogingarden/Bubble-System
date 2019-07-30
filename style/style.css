@@ -53,16 +53,6 @@ body{
     width: 1270px;
     height: 1080px;
 }
-#bubbleDiv .nodes text{
-    stroke: #6F257F;
-    stroke-opacity: 0.0;
-    fill: #D4D8DA;
-}
-#bubbleDiv .nodes #value{
-    stroke: #6F257F;
-    stroke-opacity: 0.0;
-    fill: #D4D8DA;
-}
 #hbarDiv{
     position: absolute;
     top: 480px;
@@ -93,16 +83,6 @@ body{
     fill: #6F257F;
 }
 
-.circle #name{
-    /*fill-opacity: 0!important;*/
-
-}
-.circle #value{
-    stroke: #D4D8DA!important;
-    stroke-opacity: 1!important;
-    stroke-width: 0.1px!important;
-
-}
 #bubbleDiv text {
     text-anchor: middle;
     pointer-events: none;

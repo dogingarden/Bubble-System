@@ -98,7 +98,8 @@ d3.bubble = function () {
             });
     }
     function updateImgLabels(){
-        svg.selectAll("#imgLabels")
+        svg.select("#imgLabels")
+            .selectAll("pattern")
             .data(properties.data, function (d) {
                 return d ? d.name : this.id;
             })
@@ -134,18 +135,11 @@ d3.bubble = function () {
 
     function packData(index,data) {
         type=data.map(d=>d.group).filter(onlyUnique);
-
-        // scale.domain([0,Math.max(30,d3.max(data,function (d) {return +d.value;}))]);
         scale.domain([0,d3.max(data,function (d) {return +d.value;})]);
-        // scale.domain([0,properties.maxValue*0.5]);
         //过滤出所有上一次出现，但是这一次没有出现，并且其大小不是为0的节点。
         let preNodes=[];
         if(nodes){
             preNodes=nodes
-                // .filter(d=>{
-                //     //节点的大小不能等于0
-                //     return d.radius>0;
-                // })
                 .filter(d=>{
                     //把所有当前没有，之前有的节点筛选出来
                     return data.filter(newD=>{
@@ -190,10 +184,8 @@ d3.bubble = function () {
         });
         if(names.indexOf(d.name)<0){
             sPosition.push({name:d.name,sx:0,sy:0,radius:d.radius,step:properties.step,value:d.value});
-            // d.x= Math.cos(i / m * 2 * Math.PI) * 200 + width / 2 + Math.random();
-            // d.y= Math.sin(i / m * 2 * Math.PI) * 200 + height / 2 + Math.random();
-            d.x= 0;//properties.width / 2 + Math.random();
-            d.y= 0;//properties.height / 2 + Math.random();
+            d.x= 0;
+            d.y= 0;
             d.oldR=1e-6;
             d.oldValue=1e-6;
             d.newR=d.radius;
@@ -230,10 +222,8 @@ d3.bubble = function () {
         });
         if(names.indexOf(d.name)<0){
             sPosition.push({name:d.name,sx:0,sy:0,radius:d.radius,step:properties.step,value:d.value});
-            // d.x= Math.cos(i / m * 2 * Math.PI) * 200 + width / 2 + Math.random();
-            // d.y= Math.sin(i / m * 2 * Math.PI) * 200 + height / 2 + Math.random();
-            d.x= 0;//properties.width / 2 + Math.random();
-            d.y= 0;//properties.height / 2 + Math.random();
+            d.x= 0;
+            d.y= 0;
             d.oldR=1e-6;
             d.oldValue=1e-6;
             d.newR=d.radius;
@@ -474,44 +464,54 @@ d3.bubble = function () {
                     });
                 }
             });
+        //数值背景
         node.filter(d=>{return d.newR>properties.minValueR})
             .append("text")
+            .attr("stroke","white")
+            .attr("stroke-width",'0.2em')
+            .attr("id",d=>"value"+d.name)
+            .attr("alignment-baseline", "central")
+            .style('fill', 'white')
+            .style("text-anchor", "middle")
+            .attr("dy",function(d){
+                return 0.4*d.newR+"px";
+            });
 
+        node.filter(d=>{return d.newR>properties.minValueR})
+            .append("text")
             .attr("id","value")
             .transition(t)
-
             .attr("alignment-baseline", "central")
             .style('fill', 'black')
             .style("text-anchor", "middle")
-
             .tween("text", function(d) {
                 let that = d3.select(this),
                     i = d3.interpolateNumber(Number(d.oldValue), Number(d.newValue));
                 return function(t) {
-                    that.text(Number(i(t)/properties.divisor).toFixed(0)+properties.unit);
+                    let text=Number(i(t)/properties.divisor).toFixed(0)+properties.unit
+                    that.text(text);
+                    node.select("#value"+d.name).text(text);
                 };
             })
             .tween('font-size', function(d){
                 let that = d3.select(this);
-
                 let lengthText=d3.select("#textTemp");
-
                 lengthText.text(Number(d.oldValue));
-
                 let old_font_size=lengthText.node().getComputedTextLength();
                 lengthText.text(Number(d.newValue));
                 let new_font_size=lengthText.node().getComputedTextLength();
                 let oldS=(2 * d.oldR ) / old_font_size * 24*0.15;
                 let newS=(2 * d.newR ) / new_font_size * 24*0.15;
-
                 let i = d3.interpolate(oldS, newS);
-                return function(t)
-                {
+                return function(t){
                     d.fontSize = i(t);
-                    that.style('font-size', function(d)
-                    {
-                        return d.fontSize+"px";
-                    });
+                    that.style('font-size', function(d){
+                            return d.fontSize+"px";
+                        });
+                    node.select("#value"+d.name)
+                        .style('font-size', function(d){
+                            return d.fontSize+"px";
+                        });
                 }
             })
             .attr("dy",function(d){
@@ -540,15 +540,30 @@ d3.bubble = function () {
             .style("font-size", 0)
             .remove();
 
+        node.exit()
+            .select(d=>"#value"+d.name)
+            .transition(t)
+            .style("font-size", 0)
+            .remove();
+
         node.exit().select("#value")
             .transition(t)
             .tween("text", function(d) {
                 let that = d3.select(this),
                     i = d3.interpolateNumber(Number(d.oldValue), 0);
                 return function(t) {
-                    that.text(Number(i(t)/properties.divisor).toFixed(0) + properties.unit);
+                    let text=Number(i(t)/properties.divisor).toFixed(0) + properties.unit
+                    that.text(text);
+                    //数值背景   
+                    name.select("#value"+d.name).text(text);
                 };
             })
+            .attr("dy",0)
+            .style("font-size", 0)
+            .remove();
+        //数值背景    
+        node.exit().select(d=>"#value"+d.name)
+            .transition(t)
             .attr("dy",0)
             .style("font-size", 0)
             .remove();
@@ -560,7 +575,7 @@ d3.bubble = function () {
 
         //原先的node没有text，更新后应该加上的
         let sholdUpdateCircle=node.filter(d=>{return (d.oldR<properties.minR && d.newR>properties.minR)});
-
+        //add name
         sholdUpdateCircle.append("text")
             .attr("dy", "0em")
             .attr("id", "name")
@@ -579,6 +594,16 @@ d3.bubble = function () {
             .attr("id", "value")
             .attr("alignment-baseline", "central")
             .style('fill', 'black')
+            .style("text-anchor", "middle");
+        //add value background
+        sholdUpdateValue
+            .append("text")
+            .attr("dy", "0em")
+            .attr("id", d=>"value"+d.name)
+            .attr("alignment-baseline", "central")
+            .style('fill', 'white')
+            .attr("stroke","white")
+            .attr("stroke-width","0.2em")
             .style("text-anchor", "middle");
 
         let nodeEnter=node.enter()
@@ -601,7 +626,7 @@ d3.bubble = function () {
                     return "url(#"+d.name+")";
                 }
             });
-
+        
         nodeEnter
             .filter(d=>{return (d.newR>properties.minR && d.oldR<properties.minR)})
             .append("text")
@@ -615,10 +640,21 @@ d3.bubble = function () {
 					return d.name;
 				}
             });
+        //add value background
+        nodeEnter.filter(d=>{return (d.newR>properties.minValueR && d.oldR<properties.minValueR)})
+            .append("text")
+            .attr("id", d=>"value"+d.name)
+            .attr("stroke","white")
+            .attr("stroke-width","0.2em")
+            .attr("alignment-baseline", "central")
+            .style('fill', 'black')
+            .style("text-anchor", "middle")
+            .attr("dy",function(d) {
+                return 0.4 * d.newR+"px";
+            });
 
         nodeEnter.filter(d=>{return (d.newR>properties.minValueR && d.oldR<properties.minValueR)})
             .append("text")
-            .attr("dy", "0em")
             .attr("id", "value")
             .attr("alignment-baseline", "central")
             .style('fill', 'black')
@@ -630,9 +666,7 @@ d3.bubble = function () {
         node=node
             .merge(nodeEnter);
         // Apply the general update pattern to the nodes.
-
-        node
-            .select("#name")
+        node.select("#name")
             .transition(t)
             .tween('radius', function(d)
             {
@@ -676,7 +710,7 @@ d3.bubble = function () {
                     d3.select(this).remove();
                 }
             });
-
+        
         node
             .select("#value")
             .attr("alignment-baseline", "central")
@@ -685,37 +719,42 @@ d3.bubble = function () {
                 let that = d3.select(this),
                 i = d3.interpolateNumber(Number(d.oldValue), Number(d.newValue));
                 return function(t) {
-                    that.text(Number(i(t)/properties.divisor).toFixed(0)+properties.unit);
+                    let text=Number(i(t)/properties.divisor).toFixed(0)+properties.unit;
+                    that.text(text);
+                    node.select("#value"+d.name).text(text);
                 };
             })
             .tween('font-size', function(d){
                 let that = d3.select(this);
-
                 let lengthText=d3.select("#textTemp");
-
                 lengthText.text(Number(d.oldValue));
-
                 let old_font_size=lengthText.node().getComputedTextLength();
                 lengthText.text(Number(d.newValue));
                 let new_font_size=lengthText.node().getComputedTextLength();
                 let oldS=(2 * d.oldR ) / old_font_size * 24*0.15;
                 let newS=(2 * d.newR ) / new_font_size * 24*0.15;
-
                 let i = d3.interpolate(oldS, newS);
                 return function(t){
                     d.fontSize = i(t);
                     // console.log(d.fontSize);
                     that.style('font-size', function(d){
-                        return d.fontSize+"px";
-                    });
+                            return d.fontSize+"px";
+                        });
+                    node.select("#value"+d.name)
+                        .style('font-size', function(d){
+                            return d.fontSize+"px";
+                        });
                 }
             })
             .attrTween("dy",function(d){
                 let oldS=0.4*d.oldR;
                 let newS=0.4*d.newR;
-
                 let i = d3.interpolate(oldS, newS);
                 return function(t) {
+                    node.select("#value"+d.name)
+                        .attr("dy", function(d){
+                            return i(t)+"px";
+                        });
                     return i(t)+"px";
                 }
             })
