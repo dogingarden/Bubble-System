@@ -48,18 +48,21 @@ d3.bubble = function () {
     };
     let svg,width,height;
 
-    function chart(g){
+    function chart(container){
         color=properties.color;
         width=properties.width;
         height=properties.height;
-        svg = g
+        svg = container
             .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
         scale.range([0,properties.maxR]);
         packData(0,properties.data);
         initializeSimulation();
         initializeDisplay();
-        appendImgLabels(g);
+        //判断是否需要添加图片
+        if(properties.ifShowImg==true){
+            initImgLabels(container);
+        }
 
         //用来计算每个节点文字的长度
         d3.select("svg")
@@ -69,8 +72,8 @@ d3.bubble = function () {
             .attr("x", 10)
             .attr("y", 30);
     }
-    function appendImgLabels(g) {
-        let imgLabels=g.append("g").attr("id","imgLabels");
+    function initImgLabels(container) {
+        let imgLabels=container.append("g").attr("id","imgLabels");
         imgLabels.selectAll("pattern")
             .data(properties.data, function (d) {
                 return d ? d.name : this.id;
@@ -94,10 +97,36 @@ d3.bubble = function () {
                 return "./img/"+d.name+".jpg";
             });
     }
-
+    function updateImgLabels(){
+        svg.selectAll("#imgLabels")
+            .data(properties.data, function (d) {
+                return d ? d.name : this.id;
+            })
+            .enter()
+            .append("pattern")
+            .attr("id",function(d){
+                return d.name;
+            })
+            .attr("x","0%")
+            .attr("y","0%")
+            .attr("width","100%")
+            .attr("height","100%")
+            .attr("viewBox","0 0 512 512")
+            .append("image")
+            .attr("x","0")
+            .attr("y","0")
+            .attr("width","512")
+            .attr("height","512")
+            .attr("xlink:href",function(d){
+                return "./img/"+d.name+".jpg";
+            });
+    }
     function update() {
-        // console.log(properties.step);
         packData(properties.step,properties.data);
+        //判断是否需要添加图片
+        if(properties.ifShowImg==true){
+            updateImgLabels();
+        }
         updateForces();
         updateDisplay();
     }
@@ -431,7 +460,10 @@ d3.bubble = function () {
                 let textLength=that.node().getComputedTextLength() * fontSize.slice(0,fontSize.length-2)*0.8;
                 let oldS=(2 * d.oldR ) / fontSize;
                 let newS=(2 * d.newR ) / fontSize;
-
+                if(d.name.length==1){
+                    oldS=oldS/2;
+                    newS=newS/2;
+                }
                 let i = d3.interpolate(oldS, newS);
                 return function(t)
                 {
@@ -625,7 +657,10 @@ d3.bubble = function () {
                 let newS=(2 * d.newR) /
                     that.node().getComputedTextLength() *
                     that.style('font-size').slice(0,that.style('font-size').length-2)*0.8;
-
+                if(d.name.length==1){
+                    oldS=oldS/2;
+                    newS=newS/2;
+                }    
                 let i = d3.interpolate(oldS, newS);
                 return function(t)
                 {
