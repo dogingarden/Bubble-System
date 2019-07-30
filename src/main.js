@@ -185,8 +185,7 @@ function packData(data){
       let temp_arr={year:y,data:[]};
       let temp_data=data.filter(d=>d.date==y);
       temp_data.forEach(d=>{
-        temp_arr.data.push({name:d.name,value:d.value,group:"jj"});
-  
+        temp_arr.data.push({name:d.name,value:d.value,group:d.group});
       })
       showData.push(temp_arr);
   
