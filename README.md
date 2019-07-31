@@ -8,19 +8,19 @@
 
 ### 1.配置数据
 
-- 将所需图片复制到`\img`文件夹下，将数据文件、配置文件复制到`\data`文件夹下。
+将所需图片复制到`\img`文件夹下，将数据文件、配置文件复制到`\data`文件夹下。
 
 ### 2.启动服务
 
 两种启动方式任选一
 
-> 1)提前安装 python 用作启动服务
+> 1.提前安装 python 用作启动服务
 
 - 在工程根目录下执行命令:<br>
   Python 2: `python -m SimpleHTTPServer 9093`<br>
   Python 3: `python -m http.server 9093`
 
-> 2)提前安装 node.js 用作启动服务
+> 2.提前安装 node.js 用作启动服务
 
 - 在工程根目录下依次执行以下命令:<br>
   `npm i`<br>
