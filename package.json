@@ -1,0 +1,27 @@
+{
+  "name": "bubble-system",
+  "version": "1.0.0",
+  "description": "一个使用气泡图进行时序数据或排序数据展示的可视化系统",
+  "main": "index.js",
+  "scripts": {
+    "start": "serve -l 9093",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dogingarden/Bubble-System.git"
+  },
+  "keywords": [
+    "d3.js",
+    "可视化"
+  ],
+  "author": "dogingarden",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dogingarden/Bubble-System/issues"
+  },
+  "homepage": "https://github.com/dogingarden/Bubble-System#readme",
+  "dependencies": {
+    "serve": "^11.1.0"
+  }
+}
