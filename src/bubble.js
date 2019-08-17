@@ -1,4 +1,3 @@
-
 d3.bubble = function () {
 
     let scale=d3
@@ -467,11 +466,12 @@ d3.bubble = function () {
         //数值背景
         node.filter(d=>{return d.newR>properties.minValueR})
             .append("text")
-            .attr("stroke","white")
+            .attr("stroke",d=>{
+                return color(type.indexOf(d.group))
+            })
             .attr("stroke-width",'0.2em')
             .attr("id",d=>"value"+d.name)
             .attr("alignment-baseline", "central")
-            .style('fill', 'white')
             .style("text-anchor", "middle")
             .attr("dy",function(d){
                 return 0.4*d.newR+"px";
@@ -588,6 +588,17 @@ d3.bubble = function () {
 				}
             });
         let sholdUpdateValue=node.filter(d=>{return (d.oldR<properties.minValueR && d.newR>properties.minValueR)});
+        //re add value background
+        sholdUpdateValue
+            .append("text")
+            .attr("dy", "0em")
+            .attr("id", d=>"value"+d.name)
+            .attr("alignment-baseline", "central")
+            .attr("stroke",d=>{
+                return color(type.indexOf(d.group))
+            })
+            .attr("stroke-width","0.2em")
+            .style("text-anchor", "middle");
         sholdUpdateValue
             .append("text")
             .attr("dy", "0em")
@@ -595,16 +606,7 @@ d3.bubble = function () {
             .attr("alignment-baseline", "central")
             .style('fill', 'black')
             .style("text-anchor", "middle");
-        //add value background
-        sholdUpdateValue
-            .append("text")
-            .attr("dy", "0em")
-            .attr("id", d=>"value"+d.name)
-            .attr("alignment-baseline", "central")
-            .style('fill', 'white')
-            .attr("stroke","white")
-            .attr("stroke-width","0.2em")
-            .style("text-anchor", "middle");
+        
 
         let nodeEnter=node.enter()
             .append("g")
@@ -614,10 +616,6 @@ d3.bubble = function () {
             });
 
         nodeEnter.append("circle")
-            .transition(t)
-            .attr("r", function (d) {
-                return d.newR;
-            })
             .style("fill", function (d) {
                 if(properties.ifShowImg===false) {
                     return color(type.indexOf(d.group));
@@ -625,7 +623,12 @@ d3.bubble = function () {
                 else{
                     return "url(#"+d.name+")";
                 }
-            });
+            })
+            .transition(t)
+            .attr("r", function (d) {
+                return d.newR;
+            })
+            ;
         
         nodeEnter
             .filter(d=>{return (d.newR>properties.minR && d.oldR<properties.minR)})
@@ -644,10 +647,11 @@ d3.bubble = function () {
         nodeEnter.filter(d=>{return (d.newR>properties.minValueR && d.oldR<properties.minValueR)})
             .append("text")
             .attr("id", d=>"value"+d.name)
-            .attr("stroke","white")
+            .attr("stroke",d=>{
+                return color(type.indexOf(d.group))
+            })
             .attr("stroke-width","0.2em")
             .attr("alignment-baseline", "central")
-            .style('fill', 'black')
             .style("text-anchor", "middle")
             .attr("dy",function(d) {
                 return 0.4 * d.newR+"px";
