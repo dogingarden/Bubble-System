@@ -179,16 +179,16 @@ function onlyUnique(value, index, self) {
 function packData(data){
     let showData=[];
     let years=data.map(d=>d.date).filter(onlyUnique);
-    console.log(years);
+
     years.forEach(y=>{
-  
       let temp_arr={year:y,data:[]};
       let temp_data=data.filter(d=>d.date==y);
       temp_data.forEach(d=>{
         temp_arr.data.push({name:d.name,value:d.value,group:d.group});
       })
       showData.push(temp_arr);
-  
     });
+    //防止出现第一个日期的数据不能及时加载出来的问题
+    showData.unshift(showData[0])
     return showData;
 }
