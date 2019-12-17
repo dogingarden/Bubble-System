@@ -19,6 +19,10 @@ function makeMyChart(error, data, cfg) {
     if (error) throw error;
     data=packData(data);
     config=cfg;
+    //判断是否有配色的配置,如果有就替换默认配色
+    if( config.colors!==undefined && config.colors.length>0 ){
+        color = d3.scaleOrdinal(config.colors);
+    }
     d3.select("#yearDiv")
         .append("svg")
         .attr("height",100)

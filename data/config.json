@@ -1,15 +1,15 @@
 {
-  "colors":null,
-  "barLabel":"指数/万",
-  "barDer":10000,
-  "bubbleLabel":"",
-  "bubbleDer":1,
-  "decimals":0,
-  "duration":1500,
-  "barNum":10,
-  "ease":"easeLinear",
-  "maxRadius":140,
-  "descTitle":"微博指数第一：",
-  "ifShowImg":true,
-  "ifShowName":false
+  "colors": ["#455054","#308695","#D45769","#E69D45","#D4CFC9"],
+  "barLabel": "指数/万",
+  "barDer": 10000,
+  "bubbleLabel": "",
+  "bubbleDer": 1,
+  "decimals": 0,
+  "duration": 1500,
+  "barNum": 10,
+  "ease": "easeLinear",
+  "maxRadius": 140,
+  "descTitle": "微博指数第一：",
+  "ifShowImg": false,
+  "ifShowName": true
 }
